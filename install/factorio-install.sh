@@ -12,16 +12,17 @@ setting_up_container
 network_check
 update_os
 
-msg_info "Installing factorio server"
+ensure_dependencies file xz-utils
+fetch_and_deploy_from_url "https://factorio.com/get-download/stable/headless/linux64" "/opt/factorio"
 
-# download factorio headless server and extract to /opt/factorio
-curl -sSL "https://factorio.com/get-download/stable/headless/linux64" -o /tmp/factorio.tar.xz
-tar -xJf /tmp/factorio.tar.xz -C /opt
+msg_info "Configuring Factorio"
 sed 's/"public":[[:space:]]*true/"public": false/' /opt/factorio/data/server-settings.example.json >/opt/factorio/server-settings.json
+msg_ok "Configured Factorio"
 
-msg_info "Creating initial save file"
+msg_info "Creating Factorio Save"
 mkdir -p /opt/factorio/saves
-/opt/factorio/bin/x64/factorio --create /opt/factorio/saves/save.zip
+$STD /opt/factorio/bin/x64/factorio --create /opt/factorio/saves/save.zip
+msg_ok "Created Factorio Save"
 
 msg_info "Creating Factorio Service"
 cat <<EOF >/etc/systemd/system/factorio.service
@@ -45,7 +46,7 @@ WantedBy=multi-user.target
 EOF
 systemctl enable -q --now factorio
 
-msg_ok "Installed factorio server"
+msg_ok "Created Factorio Service"
 
 motd_ssh
 customize
