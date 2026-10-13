@@ -15,7 +15,7 @@ var_disk="${var_disk:-8}"
 var_os="${var_os:-debian}"
 var_version="${var_version:-13}"
 var_unprivileged="${var_unprivileged:-1}"
-var_arm64="${var_arm64:-yes}"
+var_arm64="${var_arm64:-no}" # Factorio headless is only published for Linux x64.
 
 # Export only app-specific values read by install/appname-install.sh.
 # export var_admin_user="${var_admin_user:-}"

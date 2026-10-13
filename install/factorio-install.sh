@@ -17,6 +17,7 @@ msg_info "Installing factorio server"
 # download factorio headless server and extract to /opt/factorio
 curl -sSL "https://factorio.com/get-download/stable/headless/linux64" -o /tmp/factorio.tar.xz
 tar -xJf /tmp/factorio.tar.xz -C /opt
+sed 's/"public":[[:space:]]*true/"public": false/' /opt/factorio/data/server-settings.example.json >/opt/factorio/server-settings.json
 
 msg_info "Creating initial save file"
 mkdir -p /opt/factorio/saves
@@ -33,7 +34,7 @@ After=network-online.target
 Type=simple
 User=root
 WorkingDirectory=/opt/factorio
-ExecStart=/opt/factorio/bin/x64/factorio --start-server-load-latest
+ExecStart=/opt/factorio/bin/x64/factorio --start-server-load-latest --server-settings /opt/factorio/server-settings.json
 KillSignal=SIGINT
 TimeoutStopSec=120
 Restart=on-failure
@@ -42,7 +43,7 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
-systemctl enable --now factorio
+systemctl enable -q --now factorio
 
 msg_ok "Installed factorio server"
 
