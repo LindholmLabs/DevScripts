@@ -29,7 +29,32 @@ function update_script() {
   header_info
   check_container_storage
   check_container_resources
-  # Application update logic.
+  if [[ ! -x /opt/factorio/bin/x64/factorio ]]; then
+    msg_error "No Factorio Installation Found!"
+    exit 1
+  fi
+
+  msg_info "Stopping Factorio"
+  systemctl stop factorio
+  msg_ok "Stopped Factorio"
+
+  create_backup /opt/factorio/config /opt/factorio/config-path.cfg \
+    /opt/factorio/server-settings.json /opt/factorio/saves /opt/factorio/mods \
+    /opt/factorio/player-data.json /opt/factorio/server-adminlist.json \
+    /opt/factorio/server-banlist.json /opt/factorio/server-whitelist.json
+
+  # Overlay the release without deleting user files; restore any shipped defaults.
+  if ! fetch_and_deploy_from_url "https://factorio.com/get-download/stable/headless/linux64" "/opt/factorio"; then
+    restore_backup
+    msg_error "Factorio update failed. User data was restored; Factorio remains stopped."
+    exit 1
+  fi
+  restore_backup
+
+  msg_info "Starting Factorio"
+  systemctl start factorio
+  msg_ok "Started Factorio"
+  msg_ok "Updated Factorio successfully!"
 
   exit
 }
