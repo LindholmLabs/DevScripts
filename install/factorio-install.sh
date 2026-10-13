@@ -18,9 +18,9 @@ msg_info "Installing factorio server"
 curl -sSL "https://factorio.com/get-download/stable/headless/linux64" -o /tmp/factorio.tar.xz
 tar -xJf /tmp/factorio.tar.xz -C /opt
 
-# create new user for factorio
-useradd -r -d /opt/factorio -s /bin/false factorio
-chown -R factorio:factorio /opt/factorio
+msg_info "Creating initial save file"
+mkdir -p /opt/factorio_data/saves
+/opt/factorio/bin/x64/factorio --create /opt/factorio_data/saves/save.zip
 
 msg_info "Creating Factorio Service"
 cat <<EOF >/etc/systemd/system/factorio.service
@@ -31,9 +31,9 @@ After=network-online.target
 
 [Service]
 Type=simple
-User=factorio
+User=root
 WorkingDirectory=/opt/factorio_data
-ExecStart=/opt/factorio/bin/x64/factorio --config /opt/factorio_data/config.ini --start-server-load-latest --server-settings /opt/factorio_data/server-settings.json --port 34197
+ExecStart=/opt/factorio/bin/x64/factorio --start-server-load-latest
 KillSignal=SIGINT
 TimeoutStopSec=120
 Restart=on-failure
@@ -42,7 +42,7 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
-systemctl enable -q --now factorio
+systemctl enable --now factorio
 
 msg_ok "Installed factorio server"
 
