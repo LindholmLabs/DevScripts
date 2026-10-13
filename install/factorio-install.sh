@@ -19,8 +19,8 @@ curl -sSL "https://factorio.com/get-download/stable/headless/linux64" -o /tmp/fa
 tar -xJf /tmp/factorio.tar.xz -C /opt
 
 msg_info "Creating initial save file"
-mkdir -p /opt/factorio_data/saves
-/opt/factorio/bin/x64/factorio --create /opt/factorio_data/saves/save.zip
+mkdir -p /opt/factorio/saves
+/opt/factorio/bin/x64/factorio --create /opt/factorio/saves/save.zip
 
 msg_info "Creating Factorio Service"
 cat <<EOF >/etc/systemd/system/factorio.service
@@ -32,7 +32,7 @@ After=network-online.target
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/opt/factorio_data
+WorkingDirectory=/opt/factorio
 ExecStart=/opt/factorio/bin/x64/factorio --start-server-load-latest
 KillSignal=SIGINT
 TimeoutStopSec=120
