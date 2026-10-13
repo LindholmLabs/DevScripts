@@ -18,6 +18,9 @@ fetch_and_deploy_from_url "https://factorio.com/get-download/stable/headless/lin
 
 msg_info "Configuring Factorio"
 sed 's/"public":[[:space:]]*true/"public": false/' /opt/factorio/data/server-settings.example.json >/opt/factorio/server-settings.json
+cat <<EOF >/opt/factorio/server-adminlist.json
+[]
+EOF
 msg_ok "Configured Factorio"
 
 msg_info "Creating Factorio Save"
@@ -36,7 +39,7 @@ After=network-online.target
 Type=simple
 User=root
 WorkingDirectory=/opt/factorio
-ExecStart=/opt/factorio/bin/x64/factorio --start-server-load-latest --server-settings /opt/factorio/server-settings.json
+ExecStart=/opt/factorio/bin/x64/factorio --start-server-load-latest --server-settings /opt/factorio/server-settings.json --server-adminlist /opt/factorio/server-adminlist.json
 KillSignal=SIGINT
 TimeoutStopSec=120
 Restart=on-failure
