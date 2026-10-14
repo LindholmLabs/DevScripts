@@ -41,11 +41,8 @@ function update_script() {
     /opt/factorio/player-data.json /opt/factorio/server-adminlist.json \
     /opt/factorio/server-banlist.json /opt/factorio/server-whitelist.json
 
-  if ! fetch_and_deploy_from_url "https://factorio.com/get-download/stable/headless/linux64" "/opt/factorio"; then
-    restore_backup
-    msg_error "Factorio update failed. User data was restored; Factorio remains stopped."
-    exit 1
-  fi
+  fetch_and_deploy_from_url "https://factorio.com/get-download/stable/headless/linux64" "/opt/factorio"
+  
   restore_backup
 
   msg_info "Starting Factorio"

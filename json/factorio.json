@@ -30,7 +30,7 @@
   ],
   "default_credentials": {"username": null, "password": null},
   "notes": [
-    {"text": "Connect using the Factorio client to <container IP>:34197 over UDP. There is no web interface. Clients need the same Factorio version and mods as the server.", "type": "info"},
-    {"text": "Saves are stored in /opt/factorio/saves. The service loads the most recent save on restart. Run update inside the container to install the current stable release while preserving settings and saves.", "type": "info"}
+    {"text": "Connect using the Factorio client to <container IP>:34197 over UDP. Clients need the same Factorio version and mods as the server.", "type": "info"},
+    {"text": "Saves are stored in /opt/factorio/saves. The service loads the most recent save on restart.", "type": "info"}
   ]
 }
