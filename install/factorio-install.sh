@@ -13,7 +13,6 @@ setting_up_container
 network_check
 update_os
 
-ensure_dependencies file xz-utils
 fetch_and_deploy_from_url "https://factorio.com/get-download/stable/headless/linux64" "/opt/factorio"
 
 msg_info "Configuring Factorio"

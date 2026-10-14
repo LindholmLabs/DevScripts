@@ -15,7 +15,7 @@ var_disk="${var_disk:-8}"
 var_os="${var_os:-debian}"
 var_version="${var_version:-13}"
 var_unprivileged="${var_unprivileged:-1}"
-var_arm64="${var_arm64:-no}" # Factorio headless is only published for Linux x64.
+var_arm64="${var_arm64:-no}"
 
 header_info "$APP"
 variables
@@ -32,8 +32,6 @@ function update_script() {
     exit 1
   fi
 
-  ensure_dependencies file xz-utils
-
   msg_info "Stopping Factorio"
   systemctl stop factorio
   msg_ok "Stopped Factorio"
@@ -43,7 +41,6 @@ function update_script() {
     /opt/factorio/player-data.json /opt/factorio/server-adminlist.json \
     /opt/factorio/server-banlist.json /opt/factorio/server-whitelist.json
 
-  # Overlay the release without deleting user files; restore any shipped defaults.
   if ! fetch_and_deploy_from_url "https://factorio.com/get-download/stable/headless/linux64" "/opt/factorio"; then
     restore_backup
     msg_error "Factorio update failed. User data was restored; Factorio remains stopped."
