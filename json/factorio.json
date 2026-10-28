@@ -12,7 +12,7 @@
   "repository": "",
   "architectures": ["amd64"],
   "platforms": ["pve"],
-  "logo": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/factorio.webp",
+  "logo": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/factorio.webp",
   "description": "Factorio headless multiplayer server using the current stable Linux x64 release.",
   "install_methods": [
     {
