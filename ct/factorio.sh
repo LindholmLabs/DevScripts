@@ -15,7 +15,7 @@ var_disk="${var_disk:-8}"
 var_os="${var_os:-debian}"
 var_version="${var_version:-13}"
 var_unprivileged="${var_unprivileged:-1}"
-var_arm64="${var_arm64:-no}"
+var_arm64="${var_arm64:-yes}"
 
 header_info "$APP"
 variables
@@ -27,7 +27,7 @@ function update_script() {
   check_container_storage
   check_container_resources
 
-  if [[ ! -x /opt/factorio/bin/x64/factorio ]]; then
+  if [[ ! -x /opt/factorio/bin/$(arch_resolve "x64" "arm64")/factorio ]]; then
     msg_error "No Factorio Installation Found!"
     exit 1
   fi
@@ -41,7 +41,7 @@ function update_script() {
     /opt/factorio/player-data.json /opt/factorio/server-adminlist.json \
     /opt/factorio/server-banlist.json /opt/factorio/server-whitelist.json
 
-  fetch_and_deploy_from_url "https://factorio.com/get-download/stable/headless/linux64" "/opt/factorio"
+  fetch_and_deploy_from_url "https://factorio.com/get-download/stable/headless/$(arch_resolve "linux64" "linux-arm64")" "/opt/factorio"
   
   restore_backup
 

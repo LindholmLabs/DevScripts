@@ -13,7 +13,7 @@ setting_up_container
 network_check
 update_os
 
-fetch_and_deploy_from_url "https://factorio.com/get-download/stable/headless/linux64" "/opt/factorio"
+fetch_and_deploy_from_url "https://factorio.com/get-download/stable/headless/$(arch_resolve "linux64" "linux-arm64")" "/opt/factorio"
 
 msg_info "Configuring Factorio"
 sed 's/"public":[[:space:]]*true/"public": false/' /opt/factorio/data/server-settings.example.json >/opt/factorio/server-settings.json
@@ -24,7 +24,7 @@ msg_ok "Configured Factorio"
 
 msg_info "Creating Factorio Save"
 mkdir -p /opt/factorio/saves
-$STD /opt/factorio/bin/x64/factorio --create /opt/factorio/saves/save.zip
+$STD /opt/factorio/bin/$(arch_resolve "x64" "arm64")/factorio --create /opt/factorio/saves/save.zip
 msg_ok "Created Factorio Save"
 
 msg_info "Creating Factorio Service"
@@ -38,7 +38,7 @@ After=network-online.target
 Type=simple
 User=root
 WorkingDirectory=/opt/factorio
-ExecStart=/opt/factorio/bin/x64/factorio --start-server-load-latest --server-settings /opt/factorio/server-settings.json --server-adminlist /opt/factorio/server-adminlist.json
+ExecStart=/opt/factorio/bin/$(arch_resolve "x64" "arm64")/factorio --start-server-load-latest --server-settings /opt/factorio/server-settings.json --server-adminlist /opt/factorio/server-adminlist.json
 KillSignal=SIGINT
 TimeoutStopSec=120
 Restart=on-failure

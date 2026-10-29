@@ -10,10 +10,10 @@
   "documentation": "https://wiki.factorio.com/Multiplayer",
   "website": "https://factorio.com/",
   "repository": "",
-  "architectures": ["amd64"],
+  "architectures": ["amd64", "arm64"],
   "platforms": ["pve"],
   "logo": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/factorio.webp",
-  "description": "Factorio headless multiplayer server using the current stable Linux x64 release.",
+  "description": "Factorio headless multiplayer server using the current stable Linux release.",
   "install_methods": [
     {
       "type": "default",
